@@ -4,6 +4,9 @@ import { Topbar } from './Topbar';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileBottomNav } from './MobileBottomNav';
 import { BackupModal } from '../modals/BackupModal';
+import { GlobalSearchModal } from '../modals/GlobalSearchModal';
+import { NotificationCenterModal } from '../modals/NotificationCenterModal';
+import { DataQualityModal } from '../modals/DataQualityModal';
 import { useStore } from '../../store/useStore';
 import { DashboardPage } from '../../pages/DashboardPage';
 import { SalesPage } from '../../pages/SalesPage';
@@ -14,6 +17,7 @@ import { EmployeesPage } from '../../pages/EmployeesPage';
 import { SafePage } from '../../pages/SafePage';
 import { ExpensesPage } from '../../pages/ExpensesPage';
 import { ReportsPage } from '../../pages/ReportsPage';
+import { SnapshotsHistoryPage } from '../../pages/SnapshotsHistoryPage';
 import { MorePage } from '../../pages/MorePage';
 
 export const AppShell: React.FC = () => {
@@ -39,8 +43,9 @@ export const AppShell: React.FC = () => {
         return <ExpensesPage />;
       case 'reports':
         return <ReportsPage />;
+      case 'snapshots':
+        return <SnapshotsHistoryPage />;
       case 'more':
-      case 'settings':
         return <MorePage />;
       default:
         return <DashboardPage />;
@@ -55,7 +60,7 @@ export const AppShell: React.FC = () => {
         <div className="w-full max-w-md flex items-center justify-between mb-4 px-2 text-white">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold tracking-tight">محاكي شاشة الجوال (Mobile Simulator)</span>
+            <span className="text-xs font-bold tracking-tight">محاكي شاشة الجوال (STYLE Mobile Viewer)</span>
           </div>
           <button
             onClick={() => useStore.getState().setMobilePreviewMode(false)}
@@ -98,7 +103,11 @@ export const AppShell: React.FC = () => {
           <Sidebar isMobileDrawer={true} />
         </div>
 
+        {/* Modals */}
         <BackupModal />
+        <GlobalSearchModal />
+        <NotificationCenterModal />
+        <DataQualityModal />
       </div>
     );
   }
@@ -130,11 +139,14 @@ export const AppShell: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer (Available on mobile devices when hamburger menu is pressed) */}
+      {/* Mobile Drawer */}
       <Sidebar isMobileDrawer={true} />
 
-      {/* Global Backup Importer Modal */}
+      {/* Global Modals */}
       <BackupModal />
+      <GlobalSearchModal />
+      <NotificationCenterModal />
+      <DataQualityModal />
     </div>
   );
 };

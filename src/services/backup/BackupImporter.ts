@@ -58,7 +58,10 @@ export class JsonBackupParser implements BackupParserStrategy {
         expenses: parsed.expenses || INITIAL_BACKUP_DATA.expenses,
         returns: parsed.returns || INITIAL_BACKUP_DATA.returns,
         safeRecords: parsed.safeRecords || INITIAL_BACKUP_DATA.safeRecords,
-        dailySalesHistory: parsed.dailySalesHistory || INITIAL_BACKUP_DATA.dailySalesHistory
+        shifts: parsed.shifts || INITIAL_BACKUP_DATA.shifts,
+        transfers: parsed.transfers || INITIAL_BACKUP_DATA.transfers,
+        dailySalesHistory: parsed.dailySalesHistory || INITIAL_BACKUP_DATA.dailySalesHistory,
+        hourlySalesHistory: parsed.hourlySalesHistory || INITIAL_BACKUP_DATA.hourlySalesHistory
       };
 
       return {

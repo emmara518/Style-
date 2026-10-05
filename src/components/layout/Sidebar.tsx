@@ -1,20 +1,21 @@
 import React from 'react';
 import {
-  Home,
-  Receipt,
-  Store,
-  Shirt,
-  Package,
-  Users,
-  Vault,
-  WalletCards,
-  FileBarChart,
-  Settings,
-  Database,
-  X,
-  Building2,
-  ChevronDown
-} from 'lucide-react';
+  IconHome,
+  IconSales,
+  IconBranches,
+  IconProducts,
+  IconInventory,
+  IconStaff,
+  IconVault,
+  IconExpenses,
+  IconReports,
+  IconSnapshots,
+  IconSettings,
+  IconClose,
+  IconBuilding,
+  IconChevronDown,
+  IconDatabase
+} from '../icons/StyleIcons';
 import { useStore } from '../../store/useStore';
 import { PageId } from '../../types';
 
@@ -26,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
   const {
     currentPage,
     setCurrentPage,
-    selectedBranchId,
+    filters,
     setSelectedBranch,
     backupData,
     isSidebarOpen,
@@ -36,22 +37,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
   } = useStore();
 
   const navItems: { id: PageId; label: string; icon: React.FC<{ className?: string }>; badge?: string }[] = [
-    { id: 'dashboard', label: 'الرئيسية', icon: Home },
-    { id: 'sales', label: 'المبيعات', icon: Receipt },
-    { id: 'branches', label: 'الفروع', icon: Store, badge: '4' },
-    { id: 'products', label: 'المنتجات', icon: Shirt, badge: '1,284' },
-    { id: 'inventory', label: 'المخزون', icon: Package, badge: 'تنبيه' },
-    { id: 'employees', label: 'الموظفين / Sales', icon: Users },
-    { id: 'safe', label: 'الخزنة', icon: Vault },
-    { id: 'expenses', label: 'المصروفات', icon: WalletCards },
-    { id: 'reports', label: 'التقارير', icon: FileBarChart },
-    { id: 'more', label: 'الإعدادات والنسخ', icon: Settings }
+    { id: 'dashboard', label: 'الرئيسية (Overview)', icon: IconHome },
+    { id: 'sales', label: 'تحليل المبيعات', icon: IconSales },
+    { id: 'branches', label: 'أداء الفروع', icon: IconBranches, badge: '4' },
+    { id: 'products', label: 'المنتجات وتصنيف ABC', icon: IconProducts },
+    { id: 'inventory', label: 'حالة وصحة المخزون', icon: IconInventory, badge: 'تنبيه' },
+    { id: 'employees', label: 'أداء موظفي السيلز', icon: IconStaff },
+    { id: 'safe', label: 'الخزينة والورديات', icon: IconVault },
+    { id: 'expenses', label: 'الرقابة المالية (P&L)', icon: IconExpenses },
+    { id: 'reports', label: 'مركز التقارير', icon: IconReports },
+    { id: 'snapshots', label: 'سجل لقطات البيانات', icon: IconSnapshots, badge: '4' },
+    { id: 'more', label: 'المزيد وحالة النظام', icon: IconSettings }
   ];
 
   const content = (
     <div className="flex flex-col h-full bg-[#121316] text-slate-200 border-l border-slate-800">
       {/* Brand Header */}
-      <div className="flex items-center justify-between px-5 py-5 border-b border-slate-800/80">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800/80">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c59b4c] to-[#8c6721] p-0.5 shadow-md flex items-center justify-center">
             <span className="text-white font-black text-lg">S</span>
@@ -60,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
             <h1 className="text-base font-black tracking-tight text-white leading-tight">
               ستايل STYLE
             </h1>
-            <p className="text-[11px] font-medium text-slate-400">إدارة المتاجر والفروع</p>
+            <p className="text-[10px] font-bold text-amber-400">منصة استعراض وتحليل البيانات</p>
           </div>
         </div>
 
@@ -69,7 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
             onClick={() => setSidebarOpen(false)}
             className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/60"
           >
-            <X className="w-5 h-5" />
+            <IconClose className="w-5 h-5" />
           </button>
         )}
       </div>
@@ -81,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
         </label>
         <div className="relative">
           <select
-            value={selectedBranchId}
+            value={filters.branchId}
             onChange={(e) => setSelectedBranch(e.target.value)}
             className="w-full appearance-none bg-slate-800/80 border border-slate-700 rounded-xl px-3 py-2 text-xs font-medium text-slate-200 focus:outline-none focus:border-[#d4af37] pr-8 cursor-pointer"
           >
@@ -92,8 +94,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
               </option>
             ))}
           </select>
-          <Building2 className="w-3.5 h-3.5 text-[#d4af37] absolute left-3 top-2.5 pointer-events-none" />
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5 pointer-events-none" />
+          <IconBuilding className="w-3.5 h-3.5 text-[#d4af37] absolute left-3 top-2.5 pointer-events-none" />
+          <IconChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5 pointer-events-none" />
         </div>
       </div>
 
@@ -136,25 +138,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
         })}
       </div>
 
-      {/* Backup Status Pill & Actions */}
+      {/* Read-Only Status & Active Snapshot Pill */}
       <div className="p-4 border-t border-slate-800/80 bg-slate-950/40">
         <div
-          onClick={() => setImportModalOpen(true)}
+          onClick={() => {
+            setCurrentPage('snapshots');
+            if (isMobileDrawer) setSidebarOpen(false);
+          }}
           className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:border-[#d4af37]/50 cursor-pointer transition-colors group"
         >
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[11px] font-semibold text-slate-300 group-hover:text-[#d4af37] transition-colors flex items-center gap-1.5">
-              <Database className="w-3.5 h-3.5 text-[#d4af37]" />
-              النسخة الاحتياطية
+              <IconDatabase className="w-3.5 h-3.5 text-[#d4af37]" />
+              اللقطة المعروضة (Snapshot)
             </span>
             <span className="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20" />
           </div>
-          <p className="text-[10px] text-slate-400 line-clamp-1">
+          <p className="text-[10px] text-slate-400 font-mono truncate">
             {lastBackupSyncText}
           </p>
           <div className="mt-2 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[10px] text-slate-400">
-            <span>انقر للاستيراد / الفحص</span>
-            <span className="text-[#d4af37] font-semibold">تغيير &gt;</span>
+            <span>سجل اللقطات</span>
+            <span className="text-[#d4af37] font-semibold">تبديل اللقطة &gt;</span>
           </div>
         </div>
       </div>
@@ -165,12 +170,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileDrawer = false }) => {
     if (!isSidebarOpen) return null;
     return (
       <div className="fixed inset-0 z-50 flex">
-        {/* Backdrop */}
         <div
           className="fixed inset-0 bg-black/70 backdrop-blur-xs animate-in fade-in"
           onClick={() => setSidebarOpen(false)}
         />
-        {/* Drawer content (slides in from right in RTL) */}
         <div className="relative w-72 max-w-[85vw] h-full shadow-2xl animate-in slide-in-from-right duration-200 z-10">
           {content}
         </div>

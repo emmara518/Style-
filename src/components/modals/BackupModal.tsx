@@ -1,5 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { X, Upload, CheckCircle2, AlertCircle, FileText, Download, RotateCcw, Database, HardDrive } from 'lucide-react';
+import {
+  IconClose,
+  IconUpload,
+  IconCheckCircle,
+  IconAlertCircle,
+  IconDownload,
+  IconRotateCcw,
+  IconDatabase
+} from '../icons/StyleIcons';
 import { useStore } from '../../store/useStore';
 import { BackupImporter, BackupImportResult } from '../../services/backup/BackupImporter';
 import { INITIAL_BACKUP_DATA } from '../../data/mockBackupData';
@@ -78,7 +86,7 @@ export const BackupModal: React.FC = () => {
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50/70">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#f5eedb] flex items-center justify-center text-[#997321]">
-              <Database className="w-4 h-4" />
+              <IconDatabase className="w-4 h-4" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-slate-800">بوابة استيراد النسخ الاحتياطية (Backup)</h2>
@@ -89,7 +97,7 @@ export const BackupModal: React.FC = () => {
             onClick={() => setImportModalOpen(false)}
             className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
           >
-            <X className="w-4 h-4" />
+            <IconClose className="w-4 h-4" />
           </button>
         </div>
 
@@ -100,7 +108,7 @@ export const BackupModal: React.FC = () => {
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-slate-700">النسخة المحملة حاليًا:</span>
               <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                <CheckCircle2 className="w-3 h-3" />
+                <IconCheckCircle className="w-3 h-3" />
                 صالحة للقراءة
               </span>
             </div>
@@ -137,7 +145,7 @@ export const BackupModal: React.FC = () => {
               className="hidden"
             />
             <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 group-hover:bg-[#f5eedb] flex items-center justify-center text-slate-500 group-hover:text-[#997321] mb-2 transition-colors">
-              <Upload className="w-5 h-5" />
+              <IconUpload className="w-5 h-5" />
             </div>
             <p className="text-xs font-semibold text-slate-800 mb-1">
               انقر لاختيار ملف النسخة الاحتياطية أو اسحبه هنا
@@ -167,9 +175,9 @@ export const BackupModal: React.FC = () => {
               }`}
             >
               {importResult.success ? (
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <IconCheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               ) : (
-                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                <IconAlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
               )}
               <div className="space-y-0.5">
                 <p className="font-semibold">
@@ -216,7 +224,7 @@ export const BackupModal: React.FC = () => {
               title="إعادة تعيين للنسخة المرجعية الأولية"
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-slate-600 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg transition-colors"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <IconRotateCcw className="w-3.5 h-3.5" />
               <span>استعادة الأصلية</span>
             </button>
             <button
@@ -224,7 +232,7 @@ export const BackupModal: React.FC = () => {
               title="تصدير النسخة الحالية بصيغة JSON"
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-slate-600 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg transition-colors"
             >
-              <Download className="w-3.5 h-3.5" />
+              <IconDownload className="w-3.5 h-3.5" />
               <span>تصدير JSON</span>
             </button>
           </div>

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Home, Receipt, Shirt, Package, MoreHorizontal } from 'lucide-react';
+import {
+  IconHome,
+  IconSales,
+  IconProducts,
+  IconInventory,
+  IconMoreHorizontal
+} from '../icons/StyleIcons';
 import { useStore } from '../../store/useStore';
 import { PageId } from '../../types';
 
@@ -7,11 +13,11 @@ export const MobileBottomNav: React.FC = () => {
   const { currentPage, setCurrentPage } = useStore();
 
   const navItems: { id: PageId; label: string; icon: React.FC<{ className?: string }> }[] = [
-    { id: 'dashboard', label: 'الرئيسية', icon: Home },
-    { id: 'sales', label: 'المبيعات', icon: Receipt },
-    { id: 'products', label: 'المنتجات', icon: Shirt },
-    { id: 'inventory', label: 'المخزون', icon: Package },
-    { id: 'more', label: 'المزيد', icon: MoreHorizontal }
+    { id: 'dashboard', label: 'الرئيسية', icon: IconHome },
+    { id: 'sales', label: 'المبيعات', icon: IconSales },
+    { id: 'products', label: 'المنتجات', icon: IconProducts },
+    { id: 'inventory', label: 'المخزون', icon: IconInventory },
+    { id: 'more', label: 'المزيد', icon: IconMoreHorizontal }
   ];
 
   // Helper to determine active state

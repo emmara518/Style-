@@ -1,120 +1,155 @@
 import React from 'react';
 import {
-  Bell,
-  Smartphone,
-  Monitor,
-  Building2,
-  Database,
-  Calendar,
-  Layers
-} from 'lucide-react';
+  IconBell,
+  IconSmartphone,
+  IconMonitor,
+  IconBuilding,
+  IconSearch,
+  IconShieldCheck,
+  IconSnapshots
+} from '../icons/StyleIcons';
 import { useStore } from '../../store/useStore';
 
 export const Topbar: React.FC = () => {
   const {
     currentPage,
-    selectedBranchId,
+    setCurrentPage,
+    filters,
     backupData,
     mobilePreviewMode,
     toggleMobilePreviewMode,
     setImportModalOpen,
-    notificationCount,
-    selectedDate
+    setSearchOpen,
+    setNotificationsOpen,
+    setQualityModalOpen,
+    readNotificationIds,
+    getMetrics,
+    lastBackupSyncText
   } = useStore();
+
+  const metrics = getMetrics();
+  const unreadCount = metrics.insights.filter((i) => !readNotificationIds.includes(i.id)).length;
 
   const getPageTitle = () => {
     switch (currentPage) {
       case 'dashboard':
-        return 'الرئيسية';
+        return 'لوحة التحليلات العامة';
       case 'sales':
-        return 'المبيعات';
+        return 'تحليل المبيعات والفواتير';
       case 'branches':
-        return 'الفروع';
+        return 'أداء ومقارنة الفروع';
       case 'products':
-        return 'المنتجات';
+        return 'تحليل المنتجات وتصنيف ABC';
       case 'inventory':
-        return 'المخزون';
+        return 'حالة المخزون والتوزيع';
       case 'employees':
-        return 'الموظفين / Sales';
+        return 'ترتيب أداء موظفي السيلز';
       case 'safe':
-        return 'الخزنة';
+        return 'الخزينة ومطابقة الورديات';
       case 'expenses':
-        return 'المصروفات';
+        return 'الرقابة المالية والمصروفات';
       case 'reports':
-        return 'التقارير';
+        return 'مركز التقارير والتصدير';
+      case 'snapshots':
+        return 'سجل لقطات النسخ الدورية';
       case 'more':
-        return 'المزيد والإعدادات';
+        return 'حالة النظام وجودة البيانات';
       default:
         return 'الرئيسية';
     }
   };
 
   const branchName =
-    selectedBranchId === 'all'
-      ? 'كل الفروع'
-      : backupData.branches.find((b) => b.id === selectedBranchId)?.name || 'كل الفروع';
+    filters.branchId === 'all'
+      ? 'جميع الفروع'
+      : backupData.branches.find((b) => b.id === filters.branchId)?.name || 'جميع الفروع';
 
   return (
-    <header className="hidden lg:flex items-center justify-between px-6 py-3.5 bg-white border-b border-slate-200/80 sticky top-0 z-20">
-      {/* Right side: Page Title & Breadcrumb */}
+    <header className="hidden lg:flex items-center justify-between px-6 py-3 bg-white border-b border-slate-200/80 sticky top-0 z-20">
+      {/* Right side: Page Title & Active Branch */}
       <div className="flex items-center gap-3">
-        <h2 className="text-lg font-bold text-slate-800 tracking-tight">
+        <h2 className="text-base font-bold text-slate-900 tracking-tight">
           {getPageTitle()}
         </h2>
         <span className="text-slate-300">/</span>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-lg text-xs font-medium text-slate-600">
-          <Building2 className="w-3.5 h-3.5 text-[#b8912d]" />
+        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100/80 rounded-lg text-xs font-semibold text-slate-700">
+          <IconBuilding className="w-3.5 h-3.5 text-[#b8912d]" />
           <span>{branchName}</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-lg text-xs font-medium text-slate-600">
-          <Calendar className="w-3.5 h-3.5 text-slate-400" />
-          <span>{selectedDate}</span>
-        </div>
+
+        {/* Read-Only Badge */}
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+          وضع القراءة والتحليل (Read-Only Viewer)
+        </span>
       </div>
 
-      {/* Left side: View Switcher, Backup Importer trigger & Notifications */}
-      <div className="flex items-center gap-3">
+      {/* Left side: Snapshot Indicator, Data Quality, Search, Simulator, Notifications */}
+      <div className="flex items-center gap-2.5">
+        {/* Active Snapshot Indicator & Quick Switcher */}
+        <button
+          onClick={() => setCurrentPage('snapshots')}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#f5eedb]/80 hover:bg-[#ebdcb7] text-[#7b581c] rounded-xl text-xs font-semibold transition-colors border border-amber-200/60"
+          title="عرض لقطة النسخة الاحتياطية وتاريخ التحديث"
+        >
+          <IconSnapshots className="w-3.5 h-3.5 text-[#b8912d]" />
+          <span className="font-mono text-[11px]">{lastBackupSyncText}</span>
+        </button>
+
+        {/* Data Quality Pill Trigger */}
+        <button
+          onClick={() => setQualityModalOpen(true)}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-xs font-semibold transition-colors border border-emerald-200/60"
+          title="فحص جودة وصحة بيانات النسخة الاحتياطية"
+        >
+          <IconShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          <span>جودة البيانات: %{metrics.dataQuality.score}</span>
+        </button>
+
+        {/* Global Search Button */}
+        <button
+          onClick={() => setSearchOpen(true)}
+          className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-800 rounded-xl text-xs font-medium transition-colors"
+          title="بحث عام (Ctrl+K)"
+        >
+          <IconSearch className="w-3.5 h-3.5 text-slate-400" />
+          <span className="hidden xl:inline text-slate-400">بحث...</span>
+          <kbd className="hidden xl:inline font-mono text-[10px] bg-slate-200/70 px-1 py-0.5 rounded text-slate-600">
+            Ctrl+K
+          </kbd>
+        </button>
+
         {/* Mobile Mockup Toggle */}
         <button
           onClick={toggleMobilePreviewMode}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-colors border ${
             mobilePreviewMode
-              ? 'bg-[#121316] text-[#d4af37] border-slate-900 shadow-sm'
+              ? 'bg-[#121316] text-[#d4af37] border-slate-900 shadow-xs'
               : 'bg-white text-slate-600 hover:text-slate-900 border-slate-200 hover:border-slate-300'
           }`}
           title="معاينة الواجهة كجوال مطابق للصور المرجعية"
         >
           {mobilePreviewMode ? (
             <>
-              <Smartphone className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span>معاينة الهاتف (نشط)</span>
+              <IconSmartphone className="w-3.5 h-3.5 text-[#d4af37]" />
+              <span>معاينة الهاتف</span>
             </>
           ) : (
             <>
-              <Monitor className="w-3.5 h-3.5" />
-              <span>معاينة شاشة الهاتف</span>
+              <IconMonitor className="w-3.5 h-3.5" />
+              <span>عرض الجوال</span>
             </>
           )}
         </button>
 
-        {/* Backup Modal Trigger */}
-        <button
-          onClick={() => setImportModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#f5eedb] hover:bg-[#ebdcb7] text-[#7b581c] rounded-lg text-xs font-semibold transition-colors"
-        >
-          <Database className="w-3.5 h-3.5" />
-          <span>استيراد النسخة الاحتياطية</span>
-        </button>
-
         {/* Bell notification */}
         <button
-          onClick={() => setImportModalOpen(true)}
-          className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
-          title="إشعارات النظام"
+          onClick={() => setNotificationsOpen(true)}
+          className="relative p-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors"
+          title="التنبيهات والرؤى التحليلية"
         >
-          <Bell className="w-4 h-4" />
-          {notificationCount > 0 && (
-            <span className="absolute top-1.5 left-1.5 w-2 h-2 bg-rose-500 rounded-full" />
+          <IconBell className="w-4 h-4" />
+          {unreadCount > 0 && (
+            <span className="absolute top-1.5 left-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
           )}
         </button>
       </div>

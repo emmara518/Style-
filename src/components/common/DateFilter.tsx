@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronDown, Check } from 'lucide-react';
+import { IconCalendar, IconChevronDown, IconCheck } from '../icons/StyleIcons';
 import { useStore } from '../../store/useStore';
 
 export const DateFilter: React.FC = () => {
@@ -22,10 +22,10 @@ export const DateFilter: React.FC = () => {
         className="w-full flex items-center justify-between px-3.5 py-2 bg-white rounded-xl border border-slate-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)] text-slate-700 text-xs font-medium hover:border-slate-300 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+          <IconCalendar className="w-3.5 h-3.5 text-[#b8912d]" />
           <span>{selectedDate.includes('اليوم') ? selectedDate : `اليوم الثلاثاء ${selectedDate}`}</span>
         </div>
-        <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <IconChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
@@ -46,7 +46,7 @@ export const DateFilter: React.FC = () => {
               >
                 <span>{d}</span>
                 {selectedDate.includes(d.replace('اليوم الثلاثاء ', '')) && (
-                  <Check className="w-3.5 h-3.5 text-[#b8912d]" />
+                  <IconCheck className="w-3.5 h-3.5 text-[#b8912d]" />
                 )}
               </button>
             ))}
