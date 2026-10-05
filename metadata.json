@@ -1,0 +1,6 @@
+{
+  "name": "STYLE | ستايل - نظام إدارة المبيعات والفروع والمخزون",
+  "description": "لوحة تحكم وتحليل بيانات المتاجر والفروع لعلامة ستايل للأزياء والملابس مع معالجة النسخ الاحتياطية وإحصائيات المبيعات والمخزون والخزنة",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
